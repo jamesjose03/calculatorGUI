@@ -1,8 +1,10 @@
 from tkinter import *
+from tkinter import messagebox 
 
 root=Tk()
 root.title("Calculator")
-root.geometry("800x600")
+root.geometry("700x650")
+root.resizable(False,False)
 Top = Frame(root,width = 400, height=600,relief=SUNKEN)
 Top.pack(side=TOP)
 
@@ -14,7 +16,6 @@ f2.pack(side=TOP)
 
 l1=Label(Top,font=('arial',50,'bold'),text="Calculator",fg="Steel Blue",bd=10,anchor='w')
 l1.grid(row=0,column=0)
-
 
 operator=""
 count=0
@@ -31,19 +32,30 @@ def set_text(text):
     return
 
 def equals():
-    global operator
-    
-    sumup = str(eval(operator))
-    txtDisplay.delete('0',END)
-    set_text(sumup)
-    operator=""
+    try:
+        global operator
+        global count
+        sumup =eval(str(operator))
+        txtDisplay.delete('-1',END)
+        set_text(sumup)
+        operator=str(sumup)
+    except ZeroDivisionError:
+        messagebox.showerror("ZeroError","Division by zero is not defined")
+        
 
 def clear():
+    global operator
     txtDisplay.delete('0',END)
-    
+    operator=""
+
+def delete():
+    global operator
+    operator=operator[0:-1]
+    txtDisplay.delete('0',END)
+    txtDisplay.insert(0,operator)
 
 
-txtDisplay = Entry(Top,font=('arial',20,'bold'), bd=30, insertwidth=4, bg='powder blue',justify='right')
+txtDisplay = Entry(Top,font=('arial',20,'bold'), bd=30, insertwidth=4, bg='white',justify='right')
 txtDisplay.grid(columnspan=4)
 
 b7= Button(f1, text="7", width = 4, height = 1,font=('arial',40,'bold'), command=lambda: set_text(7))
@@ -89,23 +101,16 @@ b3 = Button(f1,text="3",width = 4, height = 1, font=('arial',40,'bold'),command=
 b3.grid(row=2,column=2)
 
 b0 = Button(f1,text="0",width = 4, height = 1, font=('arial',40,'bold'),command=lambda: set_text(0))
-b0.grid(row=2,column=3)
+b0.grid(row=3,column=0,columnspan=3,sticky=W+E)
 
 b_equal = Button(f1,text="=",width = 4, height = 1, font=('arial',40,'bold'),command=equals )
-b_equal.grid(row=2,column=4)
+b_equal.grid(row=3,column=3,columnspan=3,sticky=W+E)
 
-b_clear = Button(f1,text="C",width = 3, height = 1, font=('arial',35,'bold'),command=clear)
-b_clear.grid(row=3,column=2)
+b_clear = Button(f1,text="C",width = 4, height = 1, font=('arial',40,'bold'),command=clear)
+b_clear.grid(row=2,column=3)
 
-
-
-
-
-
-
-
-
-
+b_del = Button(f1,text="Del",width = 4, height = 1, font=('arial',40,'bold'),command=delete)
+b_del.grid(row=2,column=4)
 
 root.mainloop()
 
