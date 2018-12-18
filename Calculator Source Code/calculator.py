@@ -32,11 +32,12 @@ def set_text(text):
     return
 
 def equals():
-    try:
+    #try block to check for ZeroDivisionError
+    try: 
         global operator
         global count
         sumup =eval(str(operator))
-        txtDisplay.delete('-1',END)
+        txtDisplay.delete('0',END)
         set_text(sumup)
         operator=str(sumup)
     except ZeroDivisionError:
@@ -52,7 +53,7 @@ def delete():
     global operator
     operator=operator[0:-1]
     txtDisplay.delete('0',END)
-    txtDisplay.insert(0,operator)
+    txtDisplay.insert('0',operator)
 
 
 txtDisplay = Entry(Top,font=('arial',20,'bold'), bd=30, insertwidth=4, bg='white',justify='right')
